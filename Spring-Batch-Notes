@@ -1,0 +1,34 @@
+What is a Batch Job ?
+
+According to " The Definitive Guide to Spring Batch " By Michael Minella , the batch job is a collection of states and transitions one to the next.
+and Spring Batch is nothing more than a state machine, since steps are most common form of state used in Spring Batch.
+
+What are the different types of Steps ?
+
+There are two main kinds of steps
+1. Tasklet Step
+2. Chunk Based Step
+
+A tasklet Steps is the implementation of Tasklet and runs its execute method over and over again within the scope of transaction, until the execute method tells the step to stop , each call to execute
+method gets its own transaction. its commonly used to for things like running a stored procedure, sending notifications and so on.
+
+A Chunk Based Step is more for Item based processing , it HAS UPTO three parts
+1.ItemReader
+2.ItemProcessor
+3.ItemWriter
+
+HAS UPTO here means that in some instances you need not have ItemProcessor , you can just have item reader and item writer like in the case of data migration.
+
+What are the Interfaces that make up a Batch Job ?
+
+Inteface                                                         Description
+org.springframework.batch.core.Job                          The object representing the job , as configured within the ApplicationContext
+org.springframework.batch.core.Step                         Like the job , represents the step that has been configured
+org.springframework.batch.code.step.tasklet.Tasklet         A strategy interface that provides the ability to execute logic within the scope of a transaction
+org.springframework.batch.item.ItemReader<T>                A strategy interface for providing input for a step
+org.springframework.batch.item.ItemProcessor<I,O>           A facility to apply bussiness logic , validation ,etc , to an individual item as provided
+org.springframework.batch.item.ItemWriter<T>                A strategy interface for persistence of items within a step
+
+
+
+

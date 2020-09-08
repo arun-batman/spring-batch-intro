@@ -1,3 +1,7 @@
+
+NOTE : All the information below is available in the book " The Definitive guide is spring batch in detail " its a fantastic book by Micahel Minella , and i recommend 
+you getting it . I am just making some quick reference notes while i read his wonderful book and learn by Spring Batch.
+
 What is a Batch Job ?
 
 According to " The Definitive Guide to Spring Batch " By Michael Minella , the batch job is a collection of states and transitions one to the next.
@@ -30,5 +34,31 @@ org.springframework.batch.item.ItemProcessor<I,O>           A facility to apply 
 org.springframework.batch.item.ItemWriter<T>                A strategy interface for persistence of items within a step
 
 
+
+How does a spring batch job get executed ?
+
+
+When a job is executed a number of components interact to provide the resiliency that Spring batch provides.
+
+One such component is the JobRepository , the JobRepository is responsible for maintaining the state of the job as well as processing metrics . Typically backed by 
+a relational database , this component is virtually shared by all the main components in spring batch
+
+Next is Job Launcher , the Job Launcher is responsible for the execution of the batch Job , its is responsible for a wide varity of things other than calling the 
+Job.execute , which can include things like validating that restarting the job is valid , how to execute a job , validating parameters etc
+
+Once a Job is launcher , the Job Executes each Step and as each step is executed the current state is updated in the JobRepository
+
+
+What are Job, Job Instance , Job Execution  ?
+
+A Job Instance is a logical execution of a spring batch job , it is identified by job name and unique set of parameters.
+
+A Job Execution is a physical execution of the Spring batch job , Everytime you launch a job , you'll get a new Job Execution, you might not get a job instance ,
+when you run the job for the first time you will get job instance as well as job execution , but if the execution fails and you restart , you will not get a new instance 
+but you will get a new JobExecution to trak the second physical run. So one job instance can have multiple job executions.
+
+What is a Step Execution ?
+
+A Step Execution is a physical execution of a step.
 
 
